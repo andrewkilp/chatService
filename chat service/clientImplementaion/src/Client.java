@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,16 +11,11 @@ public class Client {
     ServerSocket server = null;
     BufferedReader in = null;
     PrintWriter out = null;
-    public Client( int portNum){
-        try {
-            connection = new Socket("localhost", portNum);
-        } catch(IOException ex) {
-            ex.printStackTrace();
-        }
-
+    public Client(String host, int portNum) throws Exception{
+        connection = new Socket(host, portNum);
     }
 
     public static void main(String[] args) {
-        Client a = new Client(5000);
+        new ClientLogIn();
     }
 }
