@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ClientThread implements Runnable {
@@ -7,5 +9,13 @@ public class ClientThread implements Runnable {
     }
     @Override
     public void run() {
+        System.out.println("called");
+        try{
+            ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+            out.writeObject(Server.serverInstance.components);
+            out.flush();
+        } catch(IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

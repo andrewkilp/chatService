@@ -27,7 +27,7 @@ public class ServerStartup extends JFrame{
                 try {
                     String port = portFeild.getText();
                     int portnum = Integer.parseInt(port);
-                    new Server(portnum);
+                    Server.serverInstance = new Server(portnum);
                     online = true;
                 } catch(Exception ex) {
                     System.out.println("failed to start");
@@ -35,6 +35,7 @@ public class ServerStartup extends JFrame{
                 if(online) {
                     System.out.println("Started Sucessfully!");
                     setVisible(false);
+                    new ServerClient();
                 }
             }
         });
@@ -48,7 +49,7 @@ public class ServerStartup extends JFrame{
                     try {
                         String port = portFeild.getText();
                         int portnum = Integer.parseInt(port);
-                        new Server(portnum);
+                        Server.serverInstance = new Server(portnum);
                         online = true;
                     } catch(Exception ex) {
                         System.out.println("failed to start");
@@ -56,6 +57,7 @@ public class ServerStartup extends JFrame{
                     if(online) {
                         System.out.println("Started Sucessfully!");
                         setVisible(false);
+                        new ServerClient();
                     }
                 }
             }
