@@ -1,14 +1,14 @@
-import java.awt.Component;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import Modules.Modules;
 import Modules.TextChat.TextChat;
 public class Server {
     int portNum;
     ServerSocket aerverSocket = null;
-    ArrayList<Component> components = new ArrayList<>();
+    ArrayList<Modules> components = new ArrayList<>();
     public static Server serverInstance;
     public Server(int portNum) {
         components.add(new TextChat());
