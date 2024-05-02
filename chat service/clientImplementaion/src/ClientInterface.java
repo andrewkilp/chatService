@@ -1,4 +1,3 @@
-import java.awt.Component;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -7,18 +6,23 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Modules.Modules;
+
 public class ClientInterface extends JFrame  {
-    @SuppressWarnings({ "null", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public ClientInterface() {
-        ObjectInputStream modsList = null;
-        List<Component> mods = new ArrayList<Component>();
         JPanel panel = new JPanel();
         try {
-            mods = (List<Component>) modsList.readObject();
-            for(Component comp: mods) {
+            ObjectInputStream modsList = new ObjectInputStream(Client.instance.inputStream);
+            List<Modules> mods = new ArrayList<Modules>();
+            mods = (List<Modules>) modsList.readObject();
+            for(Modules comp: mods) {
                 panel.add(comp);
+                comp.connectToInputStream(Client.instance.inputStream);
+                comp.connectToOutputStream(Client.instance.outputStream);
+                comp.sendData(new byte[]{12,42});
             }
-        } catch(IOException ex) { 
+        } catch(IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
