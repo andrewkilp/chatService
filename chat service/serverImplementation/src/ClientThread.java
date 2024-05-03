@@ -18,14 +18,15 @@ public class ClientThread implements Runnable {
         } catch(IOException ex) {
             ex.printStackTrace();
         }
-        while(clientSocket.isConnected()) {
+        while(true) {
+            System.out.println("conSti");
             try {
                 System.out.println(clientSocket.getInputStream().read());
             } catch(SocketException e) {
+                System.out.println("disconnected");
                 break;
             }
             catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

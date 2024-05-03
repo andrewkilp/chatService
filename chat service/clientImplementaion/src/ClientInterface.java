@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Modules.Modules;
+import Modules.TextChat.TextChat;
 
 public class ClientInterface extends JFrame  {
     @SuppressWarnings({ "unchecked" })
@@ -20,8 +21,9 @@ public class ClientInterface extends JFrame  {
                 panel.add(comp);
                 comp.connectToInputStream(Client.instance.inputStream);
                 comp.connectToOutputStream(Client.instance.outputStream);
-                comp.sendData(new byte[]{12,42});
+                comp.initFunctionality();
             }
+            panel.add(new TextChat());
         } catch(IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException e) {

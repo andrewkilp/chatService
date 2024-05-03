@@ -9,5 +9,6 @@ public abstract class Modules extends JComponent {
     public abstract void connectToOutputStream(OutputStream out);
     public abstract void connectToInputStream(InputStream in);
     public abstract void sendData(byte[] data);
-    public abstract void receiveData(int bytesToRead);
+    public abstract void receiveData();
+    public abstract void initFunctionality();
 }
