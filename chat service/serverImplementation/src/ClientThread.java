@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
@@ -10,23 +11,26 @@ public class ClientThread implements Runnable {
     }
     @Override
     public void run() {
-        System.out.println("called");
+        ObjectOutputStream out = null;
+        ObjectInputStream in = null;
         try{
-            ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+            out = new ObjectOutputStream(clientSocket.getOutputStream());
+            in = new ObjectInputStream(clientSocket.getInputStream());
             out.writeObject(Server.serverInstance.components);
             out.flush();
         } catch(IOException ex) {
             ex.printStackTrace();
         }
         while(true) {
-            System.out.println("conSti");
             try {
-                System.out.println(clientSocket.getInputStream().read());
+                System.out.println(in.readObject());
             } catch(SocketException e) {
                 System.out.println("disconnected");
                 break;
             }
             catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }

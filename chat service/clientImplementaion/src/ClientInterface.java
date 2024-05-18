@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +13,8 @@ public class ClientInterface extends JFrame  {
     public ClientInterface() {
         JPanel panel = new JPanel();
         try {
-            ObjectInputStream modsList = new ObjectInputStream(Client.instance.inputStream);
             List<Modules> mods = new ArrayList<Modules>();
-            mods = (List<Modules>) modsList.readObject();
+            mods = (List<Modules>) Client.instance.inputStream.readObject();
             for(Modules comp: mods) {
                 panel.add(comp);
                 comp.connectToInputStream(Client.instance.inputStream);

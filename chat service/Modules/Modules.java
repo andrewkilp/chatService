@@ -1,14 +1,14 @@
 package Modules;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JComponent;
 
 public abstract class Modules extends JComponent {
-    public abstract void connectToOutputStream(OutputStream out);
-    public abstract void connectToInputStream(InputStream in);
-    public abstract void sendData(byte[] data);
+    public abstract void connectToOutputStream(ObjectOutputStream out);
+    public abstract void connectToInputStream(ObjectInputStream in);
+    public abstract void sendData(Object data);
     public abstract void receiveData();
     public abstract void initFunctionality();
 }

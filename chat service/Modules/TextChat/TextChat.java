@@ -4,8 +4,8 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,8 +16,8 @@ import javax.swing.JTextField;
 import Modules.Modules;
 
 public class TextChat extends Modules{
-    OutputStream out = null;
-    InputStream in = null;
+    ObjectOutputStream out = null;
+    ObjectInputStream in = null;
     JTextField chatBox;
     public TextChat() {
         setSize(new Dimension(200,200));
@@ -30,17 +30,17 @@ public class TextChat extends Modules{
     }
     
     @Override
-    public void connectToOutputStream(OutputStream out) {
+    public void connectToOutputStream(ObjectOutputStream out) {
         this.out = out;
     }
     @Override
-    public void connectToInputStream(InputStream in) {
+    public void connectToInputStream(ObjectInputStream in) {
         this.in = in;
     }
     @Override
-    public void sendData(byte[] data) {
+    public void sendData(Object data) {
         try{
-            out.write(data);
+            out.writeObject(data);
         } catch (IOException ex){
             ex.printStackTrace();
         }
@@ -59,34 +59,18 @@ public class TextChat extends Modules{
         chatBox.addKeyListener(new KeyListener() {
 
             @Override
-            public void keyTyped(KeyEvent e) {
-                // TODO Auto-generated method stub
-            }
+            public void keyTyped(KeyEvent e) {}
 
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    String data = chatBox.getText();
-                    byte[] dataToSend = new byte[data.length()*2];
-                    for(int i = 0; i<data.length(); i++) {
-                        char c = data.charAt(i);
-                        if(i==0) {
-                            dataToSend[i] = (byte) ((byte) c&0xFF);
-                            dataToSend[i+1] = (byte) ((byte) (c>>8)&0xFF);
-                            continue;
-                        }
-                        dataToSend[i*2] = (byte) ((byte) c&0xFF);
-                        dataToSend[(i*2) +1] = (byte) ((byte) (c>>8)&0xFF);
-                        
-                    }
-                    sendData(dataToSend);
+                    sendData(chatBox.getText());
+                    chatBox.setText("");
                 }
             }
 
             @Override
-            public void keyReleased(KeyEvent e) {
-                // TODO Auto-generated method stub
-            }
+            public void keyReleased(KeyEvent e) {}
             
         });
     }
