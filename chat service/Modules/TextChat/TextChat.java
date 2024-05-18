@@ -74,28 +74,6 @@ public class TextChat extends Modules{
             
         });
     }
-    public class receiveData implements Runnable {
-        @Override
-        public void run() {
-            while(true) {
-                String string;
-                List<Byte> byteData = Collections.synchronizedList(new ArrayList<>());
-                while (true) {
-                    try {
-                        byteData.add((byte) clientSocket.getInputStream().read());
-                    } catch (IOException ex) {
-                        break;
-                    }
-                }
-                byte[] data = new byte[byteData.size()];
-                int index = 0;
-                for (Byte byteToUse : byteData) {
-                    data[index++] = byteToUse;
-                }
-                string = new String(data, StandardCharsets.UTF_8);
-                System.out.println(string);
-                clientSocket.getOutputStream().write(data);
-            }
-        }
-    }
+
+    
 }
