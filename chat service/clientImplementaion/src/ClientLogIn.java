@@ -64,7 +64,6 @@ public class ClientLogIn extends JFrame {
                         System.out.println("connected!");
                         setVisible(false);
                         new ClientInterface();
-
                     }
                 }
             }

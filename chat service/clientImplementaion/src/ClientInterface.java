@@ -6,22 +6,26 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Modules.Modules;
-import Modules.TextChat.TextChat;
 
 public class ClientInterface extends JFrame  {
     @SuppressWarnings({ "unchecked" })
     public ClientInterface() {
         JPanel panel = new JPanel();
+        setVisible(true);
         try {
             List<Modules> mods = new ArrayList<Modules>();
             mods = (List<Modules>) Client.instance.inputStream.readObject();
+            System.out.println(mods);
             for(Modules comp: mods) {
                 panel.add(comp);
                 comp.connectToInputStream(Client.instance.inputStream);
                 comp.connectToOutputStream(Client.instance.outputStream);
-                comp.initFunctionality();
+                
             }
-            panel.add(new TextChat());
+            add(panel);
+            setSize(getPreferredSize());
+            for(Modules comp:mods)
+                comp.initFunctionality();
         } catch(IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -29,8 +33,5 @@ public class ClientInterface extends JFrame  {
         } catch(Exception ex) {
             ex.printStackTrace();
         }
-        add(panel);
-        setVisible(true);
-        setSize(getPreferredSize());
     }
 }

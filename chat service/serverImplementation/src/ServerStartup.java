@@ -44,7 +44,7 @@ public class ServerStartup extends JFrame{
             public void keyTyped(KeyEvent e) {}
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == 10) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     boolean online = false;
                     try {
                         String port = portFeild.getText();
@@ -53,6 +53,7 @@ public class ServerStartup extends JFrame{
                         online = true;
                     } catch(Exception ex) {
                         System.out.println("failed to start");
+                        ex.printStackTrace();
                     }
                     if(online) {
                         System.out.println("Started Sucessfully!");

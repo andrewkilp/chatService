@@ -6,10 +6,6 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.JTextField;
 
@@ -19,6 +15,8 @@ public class TextChat extends Modules{
     ObjectOutputStream out = null;
     ObjectInputStream in = null;
     JTextField chatBox;
+    int channel;
+    static int numChannel = 0;
     public TextChat() {
         setSize(new Dimension(200,200));
         setPreferredSize(new Dimension(200, 200));
@@ -27,6 +25,7 @@ public class TextChat extends Modules{
         chatBox.setSize(getPreferredSize());
         add(chatBox);
         setVisible(true);
+        channel = numChannel++;
     }
     
     @Override
@@ -46,16 +45,9 @@ public class TextChat extends Modules{
         }
     }
     @Override
-    public void receiveData() {
-        try{
-            in.read();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    @Override
     public void initFunctionality() {
+        
+        new Thread(new ReceiveData()).start();
         chatBox.addKeyListener(new KeyListener() {
 
             @Override
@@ -64,7 +56,8 @@ public class TextChat extends Modules{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    sendData(chatBox.getText());
+                    var data = new TextChatData(chatBox.getText(), channel);
+                    sendData(data);
                     chatBox.setText("");
                 }
             }
@@ -74,30 +67,23 @@ public class TextChat extends Modules{
             
         });
     }
-    public class receiveData implements Runnable {
+    public class ReceiveData implements Runnable {
         @Override
         public void run() {
+
             while(true) {
-                String string;
-                List<Object> byteData = Collections.synchronizedList(new ArrayList<>());
-                while (true) {
-                    try {
-                        byteData.add((byte) in.read());
-                    } catch (IOException ex) {
-                        break;
-                    }
-                }
-                byte[] data = new byte[byteData.size()];
-                int index = 0;
-                for (Object byteToUse : byteData) {
-                    data[index++] = (byte) byteToUse;
-                }
-                string = new String(data, StandardCharsets.UTF_8);
-                System.out.println(string);
                 try {
-                    out.write(data);
-                } catch (IOException e) {
+                    if(in == null)
+                        continue;
+                    var data = in.readObject();
+                    if(data == null) continue;
+                    if(data instanceof TextChatData) {
+                        sendData(new String("recived"));
+                    }
+                } catch (ClassNotFoundException e) {
                     e.printStackTrace();
+                } catch (IOException e) {
+                    System.out.println("disconected");
                 }
             }
         }

@@ -23,7 +23,9 @@ public class ClientThread implements Runnable {
         }
         while(true) {
             try {
-                System.out.println(in.readObject());
+                var data = in.readObject();
+                System.out.println(data);
+                out.writeObject(data);
             } catch(SocketException e) {
                 System.out.println("disconnected");
                 break;
