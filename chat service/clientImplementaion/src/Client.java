@@ -16,7 +16,7 @@ public class Client {
         connection = new Socket(host, portNum);
         outputStream = new ObjectOutputStream(connection.getOutputStream());
         inputStream = new ObjectInputStream(connection.getInputStream());
-        }
+    }
     public static void main(String[] args) {
         new ClientLogIn();
     }

@@ -25,8 +25,9 @@ public class ClientThread implements Runnable {
             try {
                 var data = in.readObject();
                 System.out.println(data);
-                out.writeObject(data);
+                Server.serverInstance.sendData(data);
             } catch(SocketException e) {
+                e.printStackTrace();
                 System.out.println("disconnected");
                 break;
             }
@@ -36,5 +37,8 @@ public class ClientThread implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+    public ObjectOutputStream getOutputStream() throws IOException {
+        return new ObjectOutputStream(clientSocket.getOutputStream());
     }
 }

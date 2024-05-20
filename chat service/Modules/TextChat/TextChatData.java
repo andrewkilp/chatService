@@ -6,7 +6,7 @@ public class TextChatData implements Serializable{
     String data;
     int channel;
     public TextChatData(String data, int channel) {
-        this.data = data;
+        this.data = String.format("%s%n", data);
         this.channel = channel;
     }
     @Override

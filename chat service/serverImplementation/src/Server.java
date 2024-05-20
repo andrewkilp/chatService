@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -41,6 +42,12 @@ public class Server {
             }
         }
     });
+    public void sendData(Object data) throws IOException {
+        for(ClientThread client: Server.serverInstance.currentClients){
+            ObjectOutputStream sendTo = client.getOutputStream();
+            sendTo.writeObject(data);
+        }
+    }
     public static void main(String[] args) throws Exception {
         new ServerStartup();
     }

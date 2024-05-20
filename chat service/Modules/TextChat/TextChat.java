@@ -1,12 +1,15 @@
 package Modules.TextChat;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Modules.Modules;
@@ -15,15 +18,26 @@ public class TextChat extends Modules{
     ObjectOutputStream out = null;
     ObjectInputStream in = null;
     JTextField chatBox;
+    JTextArea messages;
+    JScrollPane messageScrollBox;
     int channel;
     static int numChannel = 0;
     public TextChat() {
-        setSize(new Dimension(200,200));
-        setPreferredSize(new Dimension(200, 200));
+        setLayout(new GridLayout(2, 1));
+        messages = new JTextArea();
+        messages.setEditable(false);
+        messageScrollBox = new JScrollPane(messages);
+        messageScrollBox.setPreferredSize(new Dimension(200,300));
+        messageScrollBox.setSize(200,300);
+        messageScrollBox.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        add(messageScrollBox);
         chatBox = new JTextField();
-        chatBox.setPreferredSize(new Dimension(200, 200));
-        chatBox.setSize(getPreferredSize());
+        chatBox.setEditable(true);
+        chatBox.setPreferredSize(new Dimension(200, 50));
+        chatBox.setSize(200,50);
         add(chatBox);
+        setSize(new Dimension(messageScrollBox.getWidth(), messageScrollBox.getHeight() + chatBox.getHeight()));
+        setPreferredSize(getSize());
         setVisible(true);
         channel = numChannel++;
     }
@@ -56,7 +70,7 @@ public class TextChat extends Modules{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    var data = new TextChatData(chatBox.getText(), channel);
+                    Object data = new TextChatData(chatBox.getText(), channel);
                     sendData(data);
                     chatBox.setText("");
                 }
@@ -70,20 +84,21 @@ public class TextChat extends Modules{
     public class ReceiveData implements Runnable {
         @Override
         public void run() {
-
             while(true) {
                 try {
-                    if(in == null)
-                        continue;
-                    var data = in.readObject();
+                    Object data = in.readObject();
                     if(data == null) continue;
                     if(data instanceof TextChatData) {
-                        sendData(new String("recived"));
+                        TextChatData txtData = (TextChatData) data;
+                        if(txtData.channel == channel)
+                            messages.append(txtData.data);
                     }
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    e.printStackTrace();
                     System.out.println("disconected");
+                    break;
                 }
             }
         }

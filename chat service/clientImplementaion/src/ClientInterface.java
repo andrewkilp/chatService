@@ -23,7 +23,7 @@ public class ClientInterface extends JFrame  {
                 
             }
             add(panel);
-            setSize(getPreferredSize());
+            pack();
             for(Modules comp:mods)
                 comp.initFunctionality();
         } catch(IOException ex) {
