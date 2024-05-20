@@ -3,6 +3,7 @@ package Modules.TextChat;
 import java.io.Serializable;
 
 public class TextChatData implements Serializable{
+    private static final long serialVersionUID = 1L;
     String data;
     int channel;
     public TextChatData(String data, int channel) {

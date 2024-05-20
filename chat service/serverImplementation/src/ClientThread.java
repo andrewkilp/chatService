@@ -23,7 +23,7 @@ public class ClientThread implements Runnable {
         }
         while(true) {
             try {
-                var data = in.readObject();
+                Object data = in.readObject();
                 System.out.println(data);
                 Server.serverInstance.sendData(data);
             } catch(SocketException e) {

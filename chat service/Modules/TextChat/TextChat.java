@@ -5,8 +5,10 @@ import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -43,12 +45,20 @@ public class TextChat extends Modules{
     }
     
     @Override
-    public void connectToOutputStream(ObjectOutputStream out) {
-        this.out = out;
+    public void connectToOutputStream(OutputStream out) {
+        try {
+            this.out = new ObjectOutputStream(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @Override
-    public void connectToInputStream(ObjectInputStream in) {
-        this.in = in;
+    public void connectToInputStream(InputStream in) {
+        try {
+            this.in = new ObjectInputStream(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void sendData(Object data) {
@@ -60,13 +70,10 @@ public class TextChat extends Modules{
     }
     @Override
     public void initFunctionality() {
-        
         new Thread(new ReceiveData()).start();
         chatBox.addKeyListener(new KeyListener() {
-
             @Override
             public void keyTyped(KeyEvent e) {}
-
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -87,10 +94,10 @@ public class TextChat extends Modules{
             while(true) {
                 try {
                     Object data = in.readObject();
-                    if(data == null) continue;
-                    if(data instanceof TextChatData) {
+                    if (data == null) continue;
+                    if (data instanceof TextChatData) {
                         TextChatData txtData = (TextChatData) data;
-                        if(txtData.channel == channel)
+                        if (txtData.channel == channel)
                             messages.append(txtData.data);
                     }
                 } catch (ClassNotFoundException e) {
