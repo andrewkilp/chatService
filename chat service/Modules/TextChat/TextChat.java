@@ -7,20 +7,23 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import Modules.Modules;
+import Client.Client;
+import Modules.Module;;
 
-public class TextChat extends Modules{
+public class TextChat extends Module{
     ObjectOutputStream out = null;
     ObjectInputStream in = null;
     JTextField chatBox;
     JTextArea messages;
     JScrollPane messageScrollBox;
     int channel;
+    Client client = null;
     static int numChannel = 0;
     public TextChat() {
         setLayout(new GridLayout(2, 1));
@@ -41,22 +44,13 @@ public class TextChat extends Modules{
         setVisible(true);
         channel = numChannel++;
     }
-    
     @Override
-    public void connectToOutputStream(ObjectOutputStream out) {
-        this.out = out;
-    }
-    @Override
-    public void connectToInputStream(ObjectInputStream in) {
-        this.in = in;
+    public void connectToClient(Client client) {
+        this.client = client;
     }
     @Override
     public void sendData(Object data) {
-        try{
-            out.writeObject(data);
-        } catch (IOException ex){
-            ex.printStackTrace();
-        }
+        client.sendData(data);
     }
     @Override
     public void initFunctionality() {
@@ -86,16 +80,22 @@ public class TextChat extends Modules{
         public void run() {
             while(true) {
                 try {
+                    ObjectInputStream in = new ObjectInputStream(client.getSocket().getInputStream());
                     Object data = in.readObject();
                     if(data == null) continue;
                     if(data instanceof TextChatData) {
                         TextChatData txtData = (TextChatData) data;
-                        if(txtData.channel == channel)
+                        if(txtData.channel == channel){
                             messages.append(txtData.data);
+                            System.out.println(txtData.channel);
+                        }
                     }
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
-                } catch (IOException e) {
+                } catch(StreamCorruptedException e) {
+                    e.printStackTrace();
+                }
+                catch (IOException e) {
                     e.printStackTrace();
                     System.out.println("disconected");
                     break;
