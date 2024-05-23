@@ -1,7 +1,6 @@
 package Client;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,21 +13,19 @@ public class ClientInterface extends JFrame  {
         JPanel panel = new JPanel();
         setVisible(true);
         try {
-            List<Module> mods = new ArrayList<Module>();
-            mods = (List<Module>) Client.instance.inputStream.readObject();
+            Vector<Module> mods = new Vector<>();
+            mods = (Vector<Module>) Client.instance.inputStream.readObject();
             System.out.println(mods);
             for(Module comp: mods) {
                 panel.add(comp);
                 comp.connectToClient(Client.instance);
-                // comp.connectToInputStream(Client.instance.inputStream);
-                // comp.connectToOutputStream(Client.instance.outputStream);
-                
             }
             add(panel);
             pack();
             for(Module comp:mods)
                 comp.initFunctionality();
-        } catch(IOException ex) {
+            Client.instance.startReceivingData(mods);
+            } catch(IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

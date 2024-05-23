@@ -16,8 +16,6 @@ public class Server {
     public static Server serverInstance;
     public Server(int portNum) {
         components.add(new TextChat());
-        components.add(new TextChat());
-        components.add(new TextChat());
 
         try{
             serverSocket = new ServerSocket(portNum);
