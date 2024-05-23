@@ -10,10 +10,11 @@ public class ClientThread implements Runnable {
     public ClientThread(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
+    
+    ObjectOutputStream out = null;
+    ObjectInputStream in = null;
     @Override
     public void run() {
-        ObjectOutputStream out = null;
-        ObjectInputStream in = null;
         try{
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             in = new ObjectInputStream(clientSocket.getInputStream());
@@ -40,6 +41,6 @@ public class ClientThread implements Runnable {
         }
     }
     public ObjectOutputStream getOutputStream() throws IOException {
-        return new ObjectOutputStream(clientSocket.getOutputStream());
+        return out;
     }
 }
