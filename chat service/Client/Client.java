@@ -29,6 +29,7 @@ public class Client {
             ex.printStackTrace();
         }
     }
+    
     public static void main(String[] args) {
         new ClientLogIn();
     }

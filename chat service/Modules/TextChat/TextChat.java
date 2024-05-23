@@ -55,7 +55,7 @@ public class TextChat extends Module{
     @Override
     public void initFunctionality() {
         
-        new Thread(new ReceiveData()).start();
+        //new Thread(new ReceiveData()).start();
         chatBox.addKeyListener(new KeyListener() {
 
             @Override
@@ -100,6 +100,16 @@ public class TextChat extends Module{
                     System.out.println("disconected");
                     break;
                 }
+            }
+        }
+    }
+    @Override
+    public void receiveData(Object o) {
+        if(o == null) return;
+        if(o instanceof TextChatData) {
+            TextChatData txtData = (TextChatData) o;
+            if(txtData.channel == channel){
+                messages.append(txtData.data);
             }
         }
     }

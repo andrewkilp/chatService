@@ -48,7 +48,7 @@ public class Server {
         }
     });
     public void sendData(Object data) throws IOException {
-        for(ClientThread client: Server.serverInstance.currentClients){
+        for(ClientThread client: currentClients){
             ObjectOutputStream sendTo = client.getOutputStream();
             sendTo.writeObject(data);
         }
