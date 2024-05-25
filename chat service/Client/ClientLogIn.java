@@ -28,21 +28,7 @@ public class ClientLogIn extends JFrame {
         loginButton = new JButton("Login");
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                boolean connected = false;
-                try {
-                    String server = serverFeild.getText();
-                    String port = portFeild.getText();
-                    int portnum = Integer.parseInt(port);
-                    Client.instance = new Client(server, portnum);
-                    connected = true;
-                } catch(Exception ex) {
-                    System.out.println("failed to connect");
-                }
-                if(connected) {
-                    System.out.println("connected!");
-                    setVisible(false);
-                    new ClientInterface();
-                }
+                login();
             }
         });
         portFeild.addKeyListener(new KeyListener() {
@@ -51,21 +37,7 @@ public class ClientLogIn extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == 10) {
-                    boolean online = false;
-                    try {
-                        String server = serverFeild.getText();
-                        String port = portFeild.getText();
-                        int portnum = Integer.parseInt(port);
-                        Client.instance = new Client(server, portnum);
-                        online = true;
-                    } catch(Exception ex) {
-                        System.out.println("failed to connect");
-                    }
-                    if(online) {
-                        System.out.println("connected!");
-                        setVisible(false);
-                        new ClientInterface();
-                    }
+                    login();
                 }
             }
             @Override
@@ -77,21 +49,7 @@ public class ClientLogIn extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == 10) {
-                    boolean online = false;
-                    try {
-                        String server = serverFeild.getText();
-                        String port = portFeild.getText();
-                        int portnum = Integer.parseInt(port);
-                        Client.instance = new Client(server, portnum);
-                        online = true;
-                    } catch(Exception ex) {
-                        System.out.println("failed to connect");
-                    }
-                    if(online) {
-                        System.out.println("connected!");
-                        setVisible(false);
-                        new ClientInterface();
-                    }
+                    login();
                 }
             }
             @Override
@@ -101,5 +59,22 @@ public class ClientLogIn extends JFrame {
         add(panel);
         setVisible(true);
         setSize(getPreferredSize());
+    }
+    private void login(){
+        boolean connected = false;
+        try {
+            String server = serverFeild.getText();
+            String port = portFeild.getText();
+            int portnum = Integer.parseInt(port);
+            Client.instance = new Client(server, portnum);
+            connected = true;
+        } catch(Exception ex) {
+            System.out.println("failed to connect");
+        }
+        if(connected) {
+            System.out.println("connected!");
+            setVisible(false);
+            new ClientInterface();
+        }
     }
 }

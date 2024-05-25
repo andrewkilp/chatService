@@ -25,20 +25,7 @@ public class ServerStartup extends JFrame{
         startServer = new JButton("start Server");
         startServer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                boolean online = false;
-                try {
-                    String port = portFeild.getText();
-                    int portnum = Integer.parseInt(port);
-                    Server.serverInstance = new Server(portnum);
-                    online = true;
-                } catch(Exception ex) {
-                    System.out.println("failed to start");
-                }
-                if(online) {
-                    System.out.println("Started Sucessfully!");
-                    setVisible(false);
-                    new ServerClient();
-                }
+                startup();
             }
         });
         portFeild.addKeyListener(new KeyListener() {
@@ -47,21 +34,7 @@ public class ServerStartup extends JFrame{
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    boolean online = false;
-                    try {
-                        String port = portFeild.getText();
-                        int portnum = Integer.parseInt(port);
-                        Server.serverInstance = new Server(portnum);
-                        online = true;
-                    } catch(Exception ex) {
-                        System.out.println("failed to start");
-                        ex.printStackTrace();
-                    }
-                    if(online) {
-                        System.out.println("Started Sucessfully!");
-                        setVisible(false);
-                        new ServerClient();
-                    }
+                    startup();
                 }
             }
             @Override
@@ -71,5 +44,22 @@ public class ServerStartup extends JFrame{
         add(panel);
         setVisible(true);
         setSize(getPreferredSize());
+    }
+    private void startup(){
+        boolean online = false;
+        try {
+            String port = portFeild.getText();
+            int portnum = Integer.parseInt(port);
+            Server.serverInstance = new Server(portnum);
+            online = true;
+        } catch(Exception ex) {
+            System.out.println("failed to start");
+            ex.printStackTrace();
+        }
+        if(online) {
+            System.out.println("Started Sucessfully!");
+            setVisible(false);
+            new ServerClient();
+        }
     }
 }

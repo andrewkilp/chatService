@@ -20,6 +20,5 @@ public class ServerClient extends JFrame{
         add(panel);
         pack();
         setVisible(true);
-        
     }
 }

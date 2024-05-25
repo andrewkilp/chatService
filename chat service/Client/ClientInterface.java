@@ -19,9 +19,6 @@ public class ClientInterface extends JFrame  {
             for(Module comp: mods) {
                 panel.add(comp);
                 comp.connectToClient(Client.instance);
-                // comp.connectToInputStream(Client.instance.inputStream);
-                // comp.connectToOutputStream(Client.instance.outputStream);
-                
             }
             add(panel);
             pack();
