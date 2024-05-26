@@ -41,6 +41,7 @@ public class TextChat extends Module{
         setPreferredSize(getSize());
         setVisible(true);
         channel = numChannel++;
+        //TODO add a send button and a client name so message like user:message
     }
     @Override
     public void connectToClient(Client client) {
