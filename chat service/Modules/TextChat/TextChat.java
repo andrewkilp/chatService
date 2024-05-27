@@ -17,14 +17,15 @@ import Modules.Module;;
 public class TextChat extends Module{
     ObjectOutputStream out = null;
     ObjectInputStream in = null;
-    JTextField chatBox;
+    JTextField chatBox, username;
     JTextArea messages;
     JScrollPane messageScrollBox;
+    JButton sendButton;
     int channel;
     Client client = null;
     static int numChannel = 0;
     public TextChat() {
-        setLayout(new GridLayout(2, 1));
+        setLayout(new GridLayout(2, 2));
         messages = new JTextArea();
         messages.setEditable(false);
         messageScrollBox = new JScrollPane(messages);
@@ -37,7 +38,13 @@ public class TextChat extends Module{
         chatBox.setPreferredSize(new Dimension(200, 50));
         chatBox.setSize(200,50);
         add(chatBox);
-        setSize(new Dimension(messageScrollBox.getWidth(), messageScrollBox.getHeight() + chatBox.getHeight()));
+        username.setEditable(true);
+        username.setPreferredSize(new Dimension(200, 50));
+        username.setSize(200,50);
+        add(username);
+        sendButton = new JButton("send message");
+        add(sendButton);
+        setSize(new Dimension(messageScrollBox.getWidth() + username.getWidth(), messageScrollBox.getHeight() + chatBox.getHeight()));
         setPreferredSize(getSize());
         setVisible(true);
         channel = numChannel++;
@@ -66,6 +73,7 @@ public class TextChat extends Module{
             public void keyReleased(KeyEvent e) {}
             
         });
+        //TODO add send message and username functionalit
     }
     private void sendMessage(){
         Object data = new TextChatData(chatBox.getText(), channel);
