@@ -73,6 +73,11 @@ public class TextChat extends Module{
             public void keyReleased(KeyEvent e) {}
             
         });
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                sendMessage();
+            }
+        });
         //TODO add send message and username functionalit
     }
     private void sendMessage(){
