@@ -23,6 +23,7 @@ public class TextChat extends Module{
     JButton sendButton;
     int channel;
     Client client = null;
+    String clientUsername;
     static int numChannel = 0;
     public TextChat() {
         setLayout(new GridLayout(2, 2));
@@ -67,6 +68,19 @@ public class TextChat extends Module{
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     sendMessage();
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {}
+            
+        });
+        username.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    clientUsername = username.getText();
                 }
             }
             @Override
