@@ -1,1 +1,1 @@
-a modular system to make a text application and can also do whatever
+A system which allows easy creation of online things
