@@ -21,6 +21,7 @@ public class TextChat extends Module{
     JTextArea messages;
     JScrollPane messageScrollBox;
     int channel;
+    String name;
     Client client = null;
     static int numChannel = 0;
     public TextChat() {
@@ -68,7 +69,7 @@ public class TextChat extends Module{
         });
     }
     private void sendMessage(){
-        Object data = new TextChatData(chatBox.getText(), channel);
+        Object data = new TextChatData(name, chatBox.getText(), channel);
         sendData(data);
         chatBox.setText("");
     }
