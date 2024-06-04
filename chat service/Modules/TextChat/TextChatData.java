@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class TextChatData implements Serializable{
     String data;
     int channel;
-    public TextChatData(String data, int channel) {
-        this.data = String.format("%s%n", data);
+    public TextChatData(Sting name, String data, int channel) {
+        this.data = String.format("%s:%n%s%n", data);
         this.channel = channel;
     }
     @Override
