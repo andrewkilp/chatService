@@ -95,7 +95,7 @@ public class TextChat extends Module{
         //TODO add send message and username functionalit
     }
     private void sendMessage(){
-        Object data = new TextChatData(chatBox.getText(), channel);
+        Object data = new TextChatData(clientUsername, chatBox.getText(), channel);
         sendData(data);
         chatBox.setText("");
     }
